@@ -1,12 +1,11 @@
-
-import { View, Text, StyleSheet } from "react-native";
+import { Text, StyleSheet } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function HomeScreen() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Posto-Certo</Text>
-      <Text>Minha primeira tela!</Text>
-    </View>
+    <SafeAreaView style={styles.container}>
+      <Text style={styles.titulo}>Abastece Bem</Text>
+    </SafeAreaView>
   );
 }
 
@@ -17,8 +16,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  title: {
-    fontSize: 30,
+  titulo: {
+    fontSize: 24,
     fontWeight: "bold",
     color: "#166534",
   },
