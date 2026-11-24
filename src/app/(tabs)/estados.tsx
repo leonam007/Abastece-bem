@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import {
-  View,
   Text,
   FlatList,
   ActivityIndicator,
@@ -10,6 +9,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
 import { buscarPrecos } from "../../services/combustivelApi";
+import CardPreco from "../../components/CardPreco";
 
 // Formato de cada item da lista
 type Estado = {
@@ -81,14 +81,12 @@ export default function EstadosScreen() {
         data={estados}
         keyExtractor={(item) => item.sigla}
         renderItem={({ item }) => (
-          <TouchableOpacity
-            style={styles.item}
+          <CardPreco
+            titulo={item.sigla.toUpperCase()}
+            gasolina={item.gasolina}
+            diesel={item.diesel}
             onPress={() => router.push(`/posto/${item.sigla}`)}
-          >
-            <Text style={styles.sigla}>{item.sigla.toUpperCase()}</Text>
-            <Text>Gasolina: R$ {item.gasolina}</Text>
-            <Text>Diesel: R$ {item.diesel}</Text>
-          </TouchableOpacity>
+          />
         )}
       />
     </SafeAreaView>
@@ -107,17 +105,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     gap: 12,
-  },
-  item: {
-    backgroundColor: "#FFFFFF",
-    padding: 16,
-    borderRadius: 10,
-    marginBottom: 10,
-  },
-  sigla: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#166534",
   },
   erro: {
     color: "#B91C1C",
