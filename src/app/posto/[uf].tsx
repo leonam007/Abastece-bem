@@ -4,6 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useLocalSearchParams } from "expo-router";
 import { buscarPrecos } from "../../services/combustivelApi";
 import CardPreco from "../../components/CardPreco";
+import { carregarFavoritos, salvarFavoritos } from "../../services/favoritos";
 
 export default function DetalheScreen() {
   // Pega a sigla do estado que veio na rota (ex: /posto/sp)
@@ -16,6 +17,7 @@ export default function DetalheScreen() {
   const [dataColeta, setDataColeta] = useState("");
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState("");
+  const [favorito, setFavorito] = useState(false);
 
   async function carregar() {
     setCarregando(true);
@@ -29,11 +31,29 @@ export default function DetalheScreen() {
       setGasolinaBrasil(dados.precos.gasolina["br"]);
       setDieselBrasil(dados.precos.diesel["br"]);
       setDataColeta(dados.data_coleta);
+
+      // Verifica se esse estado já está nos favoritos
+      const favoritos = await carregarFavoritos();
+      setFavorito(favoritos.includes(uf));
     } catch (e) {
       setErro("Não foi possível carregar os preços.");
     }
 
     setCarregando(false);
+  }
+
+  // Adiciona ou remove o estado dos favoritos
+  async function alternarFavorito() {
+    const favoritos = await carregarFavoritos();
+
+    if (favorito) {
+      const novaLista = favoritos.filter((sigla) => sigla !== uf);
+      await salvarFavoritos(novaLista);
+    } else {
+      await salvarFavoritos([...favoritos, uf]);
+    }
+
+    setFavorito(!favorito);
   }
 
   // Busca de novo sempre que o estado (uf) mudar
@@ -69,6 +89,12 @@ export default function DetalheScreen() {
       <CardPreco titulo="Média do Brasil" gasolina={gasolinaBrasil} diesel={dieselBrasil} />
 
       <Text style={styles.data}>Atualizado em: {dataColeta}</Text>
+
+      <TouchableOpacity style={styles.botao} onPress={alternarFavorito}>
+        <Text style={styles.textoBotao}>
+          {favorito ? "★ Remover dos favoritos" : "☆ Adicionar aos favoritos"}
+        </Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 }
@@ -105,6 +131,8 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 8,
+    alignItems: "center",
+    marginTop: 16,
   },
   textoBotao: {
     color: "#FFFFFF",
