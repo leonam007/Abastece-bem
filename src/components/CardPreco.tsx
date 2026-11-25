@@ -1,14 +1,12 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 
-// Props que o componente recebe de quem usa ele
 type Props = {
   titulo: string;
   gasolina: string;
   diesel: string;
-  onPress?: () => void; // opcional: só quando o card for clicável
+  onPress?: () => void;
 };
 
-// Componente reutilizável: usado na lista de Estados, no Detalhe e nos Favoritos
 export default function CardPreco({ titulo, gasolina, diesel, onPress }: Props) {
   return (
     <TouchableOpacity style={styles.card} onPress={onPress} disabled={!onPress}>

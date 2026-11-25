@@ -1,7 +1,6 @@
 import { Tabs } from "expo-router";
 import { Text } from "react-native";
 
-// Navegador 2: Tabs (abas na parte de baixo)
 export default function TabsLayout() {
   return (
     <Tabs screenOptions={{ tabBarActiveTintColor: "#166534" }}>

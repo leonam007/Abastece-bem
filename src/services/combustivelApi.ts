@@ -9,6 +9,10 @@ export interface RespostaAPI {
     gasolina: Record<string, string>;
     diesel: Record<string, string>;
   };
+  analise: {
+    estado_mais_barato_gasolina: { sigla: string; preco: string };
+    estado_mais_caro_gasolina: { sigla: string; preco: string };
+  };
 }
 
 export async function buscarPrecos(): Promise<RespostaAPI> {

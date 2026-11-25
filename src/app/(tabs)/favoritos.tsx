@@ -22,13 +22,10 @@ export default function FavoritosScreen() {
     setErro("");
 
     try {
-      // 1. Lê as siglas salvas no celular
       const favoritos = await carregarFavoritos();
 
-      // 2. Busca os preços atuais na API
       const dados = await buscarPrecos();
 
-      // 3. Monta a lista só com os estados favoritos
       const lista = favoritos.map((sigla) => ({
         sigla: sigla,
         gasolina: dados.precos.gasolina[sigla] ?? "-",
@@ -43,8 +40,6 @@ export default function FavoritosScreen() {
     setCarregando(false);
   }
 
-  // Recarrega toda vez que a aba aparece na tela
-  // (assim, se favoritar um estado no Detalhe, ele já aparece aqui)
   useFocusEffect(
     useCallback(() => {
       carregar();

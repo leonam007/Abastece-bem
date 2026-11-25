@@ -7,7 +7,6 @@ import CardPreco from "../../components/CardPreco";
 import { carregarFavoritos, salvarFavoritos } from "../../services/favoritos";
 
 export default function DetalheScreen() {
-  // Pega a sigla do estado que veio na rota (ex: /posto/sp)
   const { uf } = useLocalSearchParams<{ uf: string }>();
 
   const [gasolina, setGasolina] = useState("");
@@ -32,7 +31,6 @@ export default function DetalheScreen() {
       setDieselBrasil(dados.precos.diesel["br"]);
       setDataColeta(dados.data_coleta);
 
-      // Verifica se esse estado já está nos favoritos
       const favoritos = await carregarFavoritos();
       setFavorito(favoritos.includes(uf));
     } catch (e) {
@@ -42,7 +40,6 @@ export default function DetalheScreen() {
     setCarregando(false);
   }
 
-  // Adiciona ou remove o estado dos favoritos
   async function alternarFavorito() {
     const favoritos = await carregarFavoritos();
 
@@ -56,7 +53,6 @@ export default function DetalheScreen() {
     setFavorito(!favorito);
   }
 
-  // Busca de novo sempre que o estado (uf) mudar
   useEffect(() => {
     carregar();
   }, [uf]);

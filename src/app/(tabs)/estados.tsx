@@ -11,7 +11,6 @@ import { router } from "expo-router";
 import { buscarPrecos } from "../../services/combustivelApi";
 import CardPreco from "../../components/CardPreco";
 
-// Formato de cada item da lista
 type Estado = {
   sigla: string;
   gasolina: string;
@@ -23,7 +22,6 @@ export default function EstadosScreen() {
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState("");
 
-  // Função que chama a API e monta a lista de estados
   async function carregar() {
     setCarregando(true);
     setErro("");
@@ -31,9 +29,8 @@ export default function EstadosScreen() {
     try {
       const dados = await buscarPrecos();
 
-      // Transforma o objeto { sp: "6,36", rj: "6,61" } em uma lista
       const lista = Object.keys(dados.precos.gasolina)
-        .filter((sigla) => sigla !== "br") // "br" é a média do Brasil, não um estado
+        .filter((sigla) => sigla !== "br")
         .map((sigla) => ({
           sigla: sigla,
           gasolina: dados.precos.gasolina[sigla],
@@ -48,12 +45,10 @@ export default function EstadosScreen() {
     setCarregando(false);
   }
 
-  // Chama a API uma vez, quando a tela abre
   useEffect(() => {
     carregar();
   }, []);
 
-  // Enquanto carrega, mostra o loading
   if (carregando) {
     return (
       <SafeAreaView style={styles.centro}>
@@ -63,7 +58,6 @@ export default function EstadosScreen() {
     );
   }
 
-  // Se deu erro, mostra a mensagem e o botão de tentar de novo
   if (erro) {
     return (
       <SafeAreaView style={styles.centro}>
