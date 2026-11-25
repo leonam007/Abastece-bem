@@ -1,34 +1,70 @@
-# Abastece Bem
+# ⛽ Abastece Bem
 
-Aplicativo em React Native (Expo) que mostra o preço médio da gasolina e do diesel em cada estado do Brasil, usando a [Combustível API](https://combustivelapi.com.br/), e permite salvar estados favoritos no celular.
+Aplicativo mobile feito com **React Native (Expo)** que mostra o preço médio da **gasolina** e do **diesel** em cada estado do Brasil. Dá para ver o detalhe de um estado, comparar dois estados e salvar seus favoritos no celular.
 
-Trabalho final da disciplina de React Native — Prof. Victor Vidigal.
+Trabalho final da disciplina de React Native — Prof. Victor Vidigal Ribeiro.
+
+## O que o app faz
+
+- Mostra a média do Brasil e os estados com a gasolina mais barata e mais cara.
+- Lista todos os estados com o preço da gasolina e do diesel.
+- Mostra o detalhe de cada estado, comparado com a média nacional.
+- Permite favoritar estados e guarda a lista no celular.
+- Compara a gasolina entre dois estados.
 
 ## Telas
 
-| Tela | Arquivo | O que faz |
-|---|---|---|
-| Início | `src/app/(abas)/index.js` | Média do Brasil, estado com a gasolina mais barata e mais cara, e data da coleta |
-| Estados | `src/app/(abas)/estados.js` | Lista todos os estados com preço da gasolina e do diesel |
-| Favoritos | `src/app/(abas)/favoritos.js` | Mostra os estados que o usuário favoritou |
-| Comparar | `src/app/(abas)/comparar.js` | Compara o preço da gasolina entre dois estados escolhidos, com os favoritos como atalho |
-| Sobre | `src/app/(abas)/sobre.js` | Explica o app e a fonte dos dados |
-| Detalhe | `src/app/posto/[uf].js` | Preço do estado comparado com a média do Brasil, com botão para favoritar |
+| Tela | O que mostra |
+|---|---|
+| Início | Resumo do Brasil e data da última atualização |
+| Estados | Lista de todos os estados |
+| Favoritos | Os estados que você salvou |
+| Comparar | Diferença de preço entre dois estados |
+| Sobre | Informações sobre o app e a fonte dos dados |
+| Detalhe | Preço do estado e botão para favoritar |
 
-## Requisitos atendidos
+## Fonte dos dados
 
-- **Navegação:** 6 telas, com dois navegadores do Expo Router (file-based routing): `Stack` em `src/app/_layout.js` e `Tabs` em `src/app/(abas)/_layout.js`.
-- **API externa:** `fetch` em `src/services/combustivelApi.js`. As telas mostram loading (`ActivityIndicator`) e mensagem de erro com botão "Tentar novamente".
-- **Armazenamento local:** lista de favoritos salva com AsyncStorage em `src/services/favoritos.js`.
-- **Estado e efeitos:** `useState` para dados, loading e erro; `useEffect` para chamar a API quando a tela abre.
-- **Componente reutilizável:** `src/components/CardPreco.js`, usado nas telas Início, Estados, Detalhe, Favoritos e Comparar. `src/components/SeletorEstado.js` é usado duas vezes na tela Comparar.
-- **UI:** `StyleSheet`, Flexbox e `SafeAreaView` em todas as telas.
+Os preços vêm da [Combustível API](https://combustivelapi.com.br/), que usa os valores divulgados pela Petrobras.
 
 ## Como rodar
 
-```
+Você precisa do [Node.js](https://nodejs.org/) e do app **Expo Go** no celular.
+
+```bash
+git clone https://github.com/leonam007/Abastece-bem.git
+cd Abastece-bem
 npm install
 npx expo start
 ```
 
-Depois é só abrir no Expo Go (celular) ou apertar `w` para abrir no navegador.
+Depois, escaneie o QR Code com o Expo Go. O app precisa de internet para buscar os preços.
+
+## Uso de Inteligência Artificial
+
+- **Ferramenta:** Claude (Anthropic), usado pelo claude.ai.
+- **Versão:** Claude Sonnet 5.5.
+- **Período:** novembro de 2026.
+- **Finalidade:** revisão e correção do código e redação deste README.
+
+### Partes em que o Claude ajudou
+
+**1. Carregar os preços e os favoritos em sequência** (telas Favoritos e Detalhe)
+- *O que faz:* primeiro lê os estados favoritos salvos no celular e depois busca os preços deles na internet. Se algo falha no caminho, mostra uma mensagem de erro, e o carregamento termina de qualquer forma.
+- *Ajuda do Claude:* reescreveu o código e revisou o resultado.
+
+**2. Atualizar os favoritos sempre que a aba é aberta** (telas Favoritos e Comparar)
+- *O que faz:* se o usuário favorita um estado e volta para a aba Favoritos, a lista já aparece atualizada. Na tela Comparar, os favoritos também ficam em dia.
+- *Ajuda do Claude:* revisão do código.
+
+**3. Abrir o detalhe de cada estado a partir da lista** (tela Detalhe)
+- *O que faz:* ao tocar em um estado, abre uma tela com o preço dele e a média do Brasil, e o app sabe qual estado mostrar.
+- *Ajuda do Claude:* revisão do código.
+
+**4. Calcular a diferença de preço entre dois estados** (tela Comparar)
+- *O que faz:* o usuário escolhe dois estados e o app diz qual tem a gasolina mais barata e quantos reais de diferença. Se forem o mesmo estado, avisa para escolher dois diferentes.
+- *Ajuda do Claude:* revisão do código.
+
+**5. Mostrar os favoritos primeiro na escolha de estados** (tela Comparar)
+- *O que faz:* na hora de escolher os estados para comparar, os favoritos aparecem primeiro, marcados com uma estrela, e depois vêm os outros.
+- *Ajuda do Claude:* revisão do código.
