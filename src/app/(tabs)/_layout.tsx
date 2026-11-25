@@ -17,6 +17,10 @@ export default function TabsLayout() {
         options={{ title: "Favoritos", tabBarIcon: () => <Text>⭐</Text> }}
       />
       <Tabs.Screen
+        name="comparar"
+        options={{ title: "Comparar", tabBarIcon: () => <Text>⚖️</Text> }}
+      />
+      <Tabs.Screen
         name="sobre"
         options={{ title: "Sobre", tabBarIcon: () => <Text>ℹ️</Text> }}
       />
