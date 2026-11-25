@@ -11,27 +11,24 @@ export default function FavoritosScreen() {
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState("");
 
-  async function carregar() {
+  function carregar() {
     setCarregando(true);
     setErro("");
 
-    try {
-      const favoritos = await carregarFavoritos();
+    carregarFavoritos()
+      .then((favoritos) =>
+        buscarPrecos().then((dados) => {
+          const lista = favoritos.map((sigla) => ({
+            sigla: sigla,
+            gasolina: dados.precos.gasolina[sigla] ?? "-",
+            diesel: dados.precos.diesel[sigla] ?? "-",
+          }));
 
-      const dados = await buscarPrecos();
-
-      const lista = favoritos.map((sigla) => ({
-        sigla: sigla,
-        gasolina: dados.precos.gasolina[sigla] ?? "-",
-        diesel: dados.precos.diesel[sigla] ?? "-",
-      }));
-
-      setEstados(lista);
-    } catch (e) {
-      setErro("Não foi possível carregar os favoritos.");
-    }
-
-    setCarregando(false);
+          setEstados(lista);
+        })
+      )
+      .catch(() => setErro("Não foi possível carregar os favoritos."))
+      .finally(() => setCarregando(false));
   }
 
   useFocusEffect(

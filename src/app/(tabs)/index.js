@@ -10,18 +10,14 @@ export default function HomeScreen() {
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState("");
 
-  async function carregar() {
+  function carregar() {
     setCarregando(true);
     setErro("");
 
-    try {
-      const resposta = await buscarPrecos();
-      setDados(resposta);
-    } catch (e) {
-      setErro("Não foi possível carregar os preços.");
-    }
-
-    setCarregando(false);
+    buscarPrecos()
+      .then((resposta) => setDados(resposta))
+      .catch(() => setErro("Não foi possível carregar os preços."))
+      .finally(() => setCarregando(false));
   }
 
   useEffect(() => {

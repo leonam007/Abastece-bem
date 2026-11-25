@@ -16,27 +16,24 @@ export default function EstadosScreen() {
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState("");
 
-  async function carregar() {
+  function carregar() {
     setCarregando(true);
     setErro("");
 
-    try {
-      const dados = await buscarPrecos();
+    buscarPrecos()
+      .then((dados) => {
+        const lista = Object.keys(dados.precos.gasolina)
+          .filter((sigla) => sigla !== "br")
+          .map((sigla) => ({
+            sigla: sigla,
+            gasolina: dados.precos.gasolina[sigla],
+            diesel: dados.precos.diesel[sigla] ?? "-",
+          }));
 
-      const lista = Object.keys(dados.precos.gasolina)
-        .filter((sigla) => sigla !== "br")
-        .map((sigla) => ({
-          sigla: sigla,
-          gasolina: dados.precos.gasolina[sigla],
-          diesel: dados.precos.diesel[sigla] ?? "-",
-        }));
-
-      setEstados(lista);
-    } catch (e) {
-      setErro("Não foi possível carregar os preços.");
-    }
-
-    setCarregando(false);
+        setEstados(lista);
+      })
+      .catch(() => setErro("Não foi possível carregar os preços."))
+      .finally(() => setCarregando(false));
   }
 
   useEffect(() => {

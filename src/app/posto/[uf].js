@@ -18,39 +18,34 @@ export default function DetalheScreen() {
   const [erro, setErro] = useState("");
   const [favorito, setFavorito] = useState(false);
 
-  async function carregar() {
+  function carregar() {
     setCarregando(true);
     setErro("");
 
-    try {
-      const dados = await buscarPrecos();
+    buscarPrecos()
+      .then((dados) => {
+        setGasolina(dados.precos.gasolina[uf] ?? "-");
+        setDiesel(dados.precos.diesel[uf] ?? "-");
+        setGasolinaBrasil(dados.precos.gasolina["br"]);
+        setDieselBrasil(dados.precos.diesel["br"]);
+        setDataColeta(dados.data_coleta);
 
-      setGasolina(dados.precos.gasolina[uf] ?? "-");
-      setDiesel(dados.precos.diesel[uf] ?? "-");
-      setGasolinaBrasil(dados.precos.gasolina["br"]);
-      setDieselBrasil(dados.precos.diesel["br"]);
-      setDataColeta(dados.data_coleta);
-
-      const favoritos = await carregarFavoritos();
-      setFavorito(favoritos.includes(uf));
-    } catch (e) {
-      setErro("Não foi possível carregar os preços.");
-    }
-
-    setCarregando(false);
+        return carregarFavoritos();
+      })
+      .then((favoritos) => setFavorito(favoritos.includes(uf)))
+      .catch(() => setErro("Não foi possível carregar os preços."))
+      .finally(() => setCarregando(false));
   }
 
-  async function alternarFavorito() {
-    const favoritos = await carregarFavoritos();
-
-    if (favorito) {
-      const novaLista = favoritos.filter((sigla) => sigla !== uf);
-      await salvarFavoritos(novaLista);
-    } else {
-      await salvarFavoritos([...favoritos, uf]);
-    }
-
-    setFavorito(!favorito);
+  function alternarFavorito() {
+    carregarFavoritos()
+      .then((favoritos) => {
+        if (favorito) {
+          return salvarFavoritos(favoritos.filter((sigla) => sigla !== uf));
+        }
+        return salvarFavoritos([...favoritos, uf]);
+      })
+      .then(() => setFavorito(!favorito));
   }
 
   useEffect(() => {
