@@ -1,14 +1,6 @@
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from "react-native";
 
-type Props = {
-  titulo: string;
-  estados: string[];
-  favoritos: string[];
-  selecionado: string;
-  onSelecionar: (sigla: string) => void;
-};
-
-export default function SeletorEstado({ titulo, estados, favoritos, selecionado, onSelecionar }: Props) {
+export default function SeletorEstado({ titulo, estados, favoritos, selecionado, onSelecionar }) {
   const outros = estados.filter((sigla) => !favoritos.includes(sigla));
   const lista = [...favoritos, ...outros];
 

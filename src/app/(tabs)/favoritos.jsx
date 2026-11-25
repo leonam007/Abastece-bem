@@ -6,14 +6,8 @@ import { buscarPrecos } from "../../services/combustivelApi";
 import { carregarFavoritos } from "../../services/favoritos";
 import CardPreco from "../../components/CardPreco";
 
-type Estado = {
-  sigla: string;
-  gasolina: string;
-  diesel: string;
-};
-
 export default function FavoritosScreen() {
-  const [estados, setEstados] = useState<Estado[]>([]);
+  const [estados, setEstados] = useState([]);
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState("");
 

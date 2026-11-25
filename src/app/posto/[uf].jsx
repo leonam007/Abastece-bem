@@ -7,7 +7,7 @@ import CardPreco from "../../components/CardPreco";
 import { carregarFavoritos, salvarFavoritos } from "../../services/favoritos";
 
 export default function DetalheScreen() {
-  const { uf } = useLocalSearchParams<{ uf: string }>();
+  const { uf } = useLocalSearchParams();
 
   const [gasolina, setGasolina] = useState("");
   const [diesel, setDiesel] = useState("");

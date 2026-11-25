@@ -11,14 +11,8 @@ import { router } from "expo-router";
 import { buscarPrecos } from "../../services/combustivelApi";
 import CardPreco from "../../components/CardPreco";
 
-type Estado = {
-  sigla: string;
-  gasolina: string;
-  diesel: string;
-};
-
 export default function EstadosScreen() {
-  const [estados, setEstados] = useState<Estado[]>([]);
+  const [estados, setEstados] = useState([]);
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState("");
 

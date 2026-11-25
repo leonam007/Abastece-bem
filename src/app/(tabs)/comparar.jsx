@@ -2,18 +2,18 @@ import { useCallback, useEffect, useState } from "react";
 import { View, Text, ScrollView, ActivityIndicator, TouchableOpacity, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useFocusEffect } from "expo-router";
-import { buscarPrecos, RespostaAPI } from "../../services/combustivelApi";
+import { buscarPrecos } from "../../services/combustivelApi";
 import { carregarFavoritos } from "../../services/favoritos";
 import CardPreco from "../../components/CardPreco";
 import SeletorEstado from "../../components/SeletorEstado";
 
-function paraNumero(preco: string) {
+function paraNumero(preco) {
   return Number(preco.replace(",", "."));
 }
 
 export default function CompararScreen() {
-  const [dados, setDados] = useState<RespostaAPI | null>(null);
-  const [favoritos, setFavoritos] = useState<string[]>([]);
+  const [dados, setDados] = useState(null);
+  const [favoritos, setFavoritos] = useState([]);
   const [estado1, setEstado1] = useState("");
   const [estado2, setEstado2] = useState("");
   const [carregando, setCarregando] = useState(true);

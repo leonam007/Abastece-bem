@@ -1,13 +1,6 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 
-type Props = {
-  titulo: string;
-  gasolina: string;
-  diesel: string;
-  onPress?: () => void;
-};
-
-export default function CardPreco({ titulo, gasolina, diesel, onPress }: Props) {
+export default function CardPreco({ titulo, gasolina, diesel, onPress }) {
   return (
     <TouchableOpacity style={styles.card} onPress={onPress} disabled={!onPress}>
       <Text style={styles.titulo}>{titulo}</Text>

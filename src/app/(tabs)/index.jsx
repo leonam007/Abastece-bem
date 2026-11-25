@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import { View, Text, ActivityIndicator, TouchableOpacity, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
-import { buscarPrecos, RespostaAPI } from "../../services/combustivelApi";
+import { buscarPrecos } from "../../services/combustivelApi";
 import CardPreco from "../../components/CardPreco";
 
 export default function HomeScreen() {
-  const [dados, setDados] = useState<RespostaAPI | null>(null);
+  const [dados, setDados] = useState(null);
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState("");
 
